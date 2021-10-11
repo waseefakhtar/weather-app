@@ -11,12 +11,13 @@ data class WeatherDto(
     val feelsLike: FeelsLike,
     val gust: Double,
     val humidity: Int,
-    val pop: Int,
+    val pop: Double,
     val pressure: Int,
     val speed: Double,
     val sunrise: Int,
     val sunset: Int,
     val temp: Temp,
+    @SerializedName("weather")
     val weatherInfo: List<WeatherInfo>
 )
 
@@ -25,8 +26,8 @@ fun WeatherDto.toWeather(): Weather {
         dt = dt,
         day = temp.day,
         night = temp.night,
-        title = weatherInfo.first().main,
-        description = weatherInfo.first().description,
-        icon = weatherInfo.first().icon
+        title = weatherInfo.firstOrNull()?.main ?: "",
+        description = weatherInfo.firstOrNull()?.description ?: "",
+        icon = weatherInfo.firstOrNull()?.icon ?: ""
     )
 }
