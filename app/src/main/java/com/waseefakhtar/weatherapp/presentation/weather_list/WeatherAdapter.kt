@@ -5,19 +5,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.waseefakhtar.weatherapp.R
+import com.waseefakhtar.weatherapp.domain.model.Weather
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WeatherAdapter(
     private val layoutInflater: LayoutInflater,
-    private val onWeatherClick: (weather: String) -> Unit
+    private val onWeatherClick: (weather: Weather) -> Unit
 ) : RecyclerView.Adapter<WeatherViewHolder>() {
 
-    private var weatherList = mutableListOf<String>()
+    private var weatherList = mutableListOf<Weather>()
 
     override fun getItemCount(): Int = weatherList.size
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) = holder.bind(weatherList[position])
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder = WeatherViewHolder(layoutInflater, parent, onWeatherClick)
 
-    fun add(weatherList: List<String>) {
+    fun add(weatherList: List<Weather>) {
         this.weatherList.addAll(weatherList)
         notifyDataSetChanged()
     }
@@ -26,11 +29,23 @@ class WeatherAdapter(
 class WeatherViewHolder(
     layoutInflater: LayoutInflater,
     parentView: ViewGroup,
-    private val onWeatherClick: (weather: String) -> Unit
+    private val onWeatherClick: (weather: Weather) -> Unit
 ) : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.item_weather, parentView, false)) {
-    private val textView: TextView = itemView.findViewById(R.id.textView)
-    fun bind(weather: String) {
+    private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
+    private val weatherTextView: TextView = itemView.findViewById(R.id.weatherTextView)
+    fun bind(weather: Weather) {
         itemView.setOnClickListener { onWeatherClick(weather) }
-        textView.text = weather
+        dateTextView.text = weather.dt.toDate()
+        weatherTextView.text = weather.day.toString() + "°C"
+    }
+}
+
+private fun Int.toDate(): String? {
+    try {
+        val sdf = SimpleDateFormat("EEEE, MMM dd")
+        val netDate = Date(this.toLong() * 1000)
+        return sdf.format(netDate)
+    } catch (e: Exception) {
+        return e.toString()
     }
 }

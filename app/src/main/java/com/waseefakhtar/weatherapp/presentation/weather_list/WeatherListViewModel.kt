@@ -1,5 +1,6 @@
 package com.waseefakhtar.weatherapp.presentation.weather_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.waseefakhtar.weatherapp.common.Resource
@@ -35,7 +36,6 @@ class WeatherListViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _state.emit(WeatherListState(isLoading = true))
-
                 }
             }
         }.launchIn(viewModelScope)
