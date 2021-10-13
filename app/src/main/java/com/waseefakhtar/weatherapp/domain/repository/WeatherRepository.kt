@@ -6,5 +6,5 @@ import com.waseefakhtar.weatherapp.domain.model.Weather
 interface WeatherRepository {
     // TODO: Add caching
 
-    suspend fun getWeatherList(city: String, count: Int): List<WeatherDto>
+    suspend fun getWeatherList(): List<WeatherDto>
 }

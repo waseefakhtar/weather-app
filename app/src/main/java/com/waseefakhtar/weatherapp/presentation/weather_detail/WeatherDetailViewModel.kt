@@ -1,9 +1,7 @@
 package com.waseefakhtar.weatherapp.presentation.weather_detail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.waseefakhtar.weatherapp.common.Constants.PARAM_DATE
 import com.waseefakhtar.weatherapp.common.Resource
 import com.waseefakhtar.weatherapp.domain.use_case.get_weather_detail.GetWeatherDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -17,7 +17,7 @@ class GetWeatherListUseCase @Inject constructor(
     operator fun invoke(): Flow<Resource<List<Weather>>> = flow {
         try {
             emit(Resource.Loading<List<Weather>>())
-            val weatherList = repository.getWeatherList("Paris", 16).map { it.toWeather() }
+            val weatherList = repository.getWeatherList().map { it.toWeather() }
             emit(Resource.Success(weatherList))
         } catch (e: HttpException) {
             emit(Resource.Error<List<Weather>>(e.localizedMessage ?: "An unexpected error occurred"))

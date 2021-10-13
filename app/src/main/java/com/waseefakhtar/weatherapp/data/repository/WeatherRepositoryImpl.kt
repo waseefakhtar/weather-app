@@ -9,7 +9,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private val api: OpenWeatherApi
 ): WeatherRepository {
 
-    override suspend fun getWeatherList(city: String, count: Int): List<WeatherDto> {
+    override suspend fun getWeatherList(): List<WeatherDto> {
         return api.getWeatherList().list
     }
 }
