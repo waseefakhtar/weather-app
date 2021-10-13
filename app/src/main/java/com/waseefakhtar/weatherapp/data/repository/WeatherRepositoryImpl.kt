@@ -10,6 +10,6 @@ class WeatherRepositoryImpl @Inject constructor(
 ): WeatherRepository {
 
     override suspend fun getWeatherList(): List<WeatherDto> {
-        return api.getWeatherList().list
+        return api.getCityInfo().list
     }
 }

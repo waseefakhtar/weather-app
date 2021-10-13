@@ -1,6 +1,9 @@
 package com.waseefakhtar.weatherapp
 
 import com.google.gson.annotations.SerializedName
+import com.waseefakhtar.weatherapp.data.remote.dto.City
+import com.waseefakhtar.weatherapp.data.remote.dto.CityInfoDto
+import com.waseefakhtar.weatherapp.data.remote.dto.Coord
 import com.waseefakhtar.weatherapp.data.remote.dto.FeelsLike
 import com.waseefakhtar.weatherapp.data.remote.dto.Temp
 import com.waseefakhtar.weatherapp.data.remote.dto.WeatherDto
@@ -67,14 +70,28 @@ private fun generateWeatherInfo(): WeatherInfo =
         main = randomString()
     )
 
+fun generateCityInfoDto(): CityInfoDto =
+    CityInfoDto(
+        city = generateCity(),
+        cnt = randomInt(),
+        cod = randomString(),
+        list = generateWeatherDtoList(),
+        message = randomDouble()
+    )
+
+private fun generateCity(): City =
+    City(
+        coord = Coord(randomDouble(), randomDouble()),
+        country = randomString(),
+        id = randomInt(),
+        name = randomString(),
+        population = randomInt(),
+        timezone = randomInt()
+    )
 
 fun randomPositiveInt(maxInt: Int = Int.MAX_VALUE - 1): Int = random.nextInt(maxInt + 1).takeIf { it > 0 } ?: randomPositiveInt(maxInt)
-fun randomPositiveLong(maxLong: Long = Long.MAX_VALUE - 1): Long = random.nextLong(maxLong + 1).takeIf { it > 0 } ?: randomPositiveLong(maxLong)
 fun randomInt() = random.nextInt()
-fun randomIntBetween(min: Int, max: Int) = random.nextInt(max - min) + min
-fun randomLong() = random.nextLong()
 fun randomDouble() = random.nextDouble()
-fun randomBoolean() = random.nextBoolean()
 fun randomString(size: Int = 20): String = (0..size)
     .map { charPool[random.nextInt(0, charPool.size)] }
     .joinToString("")
