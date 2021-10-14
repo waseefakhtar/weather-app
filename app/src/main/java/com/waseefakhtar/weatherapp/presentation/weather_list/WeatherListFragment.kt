@@ -33,12 +33,8 @@ class WeatherListFragment : BindingFragment<FragmentWeatherListBinding>() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state.isLoading) {
-                    true -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    false -> {
-                        binding.progressBar.visibility = View.GONE
-                    }
+                    true -> binding.progressBar.visibility = View.VISIBLE
+                    false -> binding.progressBar.visibility = View.GONE
                 }
 
                 when (state.weatherList.isNotEmpty()) {

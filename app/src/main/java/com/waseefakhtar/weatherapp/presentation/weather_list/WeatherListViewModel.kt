@@ -1,13 +1,12 @@
 package com.waseefakhtar.weatherapp.presentation.weather_list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.waseefakhtar.weatherapp.common.Resource
 import com.waseefakhtar.weatherapp.domain.use_case.get_weather_list.GetWeatherListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -17,8 +16,8 @@ class WeatherListViewModel @Inject constructor(
     private val getWeatherListUseCase: GetWeatherListUseCase
 ): ViewModel() {
 
-    private val _state = MutableSharedFlow<WeatherListState>()
-    val state = _state.asSharedFlow()
+    private val _state = MutableStateFlow<WeatherListState>(WeatherListState())
+    val state = _state.asStateFlow()
 
     init {
         getWeatherList()
