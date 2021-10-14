@@ -1,7 +1,7 @@
 package com.waseefakhtar.weatherapp.data.remote.dto
 
-data class City(
-    val coord: Coord,
+data class CityDto(
+    val coord: CoordDto,
     val country: String,
     val id: Int,
     val name: String,

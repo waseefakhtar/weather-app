@@ -1,14 +1,12 @@
 package com.waseefakhtar.weatherapp
 
-import com.google.gson.annotations.SerializedName
-import com.waseefakhtar.weatherapp.data.remote.dto.City
+import com.waseefakhtar.weatherapp.data.remote.dto.CityDto
 import com.waseefakhtar.weatherapp.data.remote.dto.CityInfoDto
-import com.waseefakhtar.weatherapp.data.remote.dto.Coord
-import com.waseefakhtar.weatherapp.data.remote.dto.FeelsLike
-import com.waseefakhtar.weatherapp.data.remote.dto.Temp
+import com.waseefakhtar.weatherapp.data.remote.dto.CoordDto
+import com.waseefakhtar.weatherapp.data.remote.dto.FeelsLikeDto
+import com.waseefakhtar.weatherapp.data.remote.dto.TempDto
 import com.waseefakhtar.weatherapp.data.remote.dto.WeatherDto
-import com.waseefakhtar.weatherapp.data.remote.dto.WeatherInfo
-import com.waseefakhtar.weatherapp.domain.model.Weather
+import com.waseefakhtar.weatherapp.data.remote.dto.WeatherInfoDto
 import java.util.concurrent.ThreadLocalRandom
 
 private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
@@ -37,8 +35,8 @@ private fun generateWeatherDto(): WeatherDto =
         weatherInfo = generateWeatherInfoList()
     )
 
-private fun generateFeelsLike(): FeelsLike {
-    return FeelsLike(
+private fun generateFeelsLike(): FeelsLikeDto {
+    return FeelsLikeDto(
         day = randomDouble(),
         eve = randomDouble(),
         morn = randomDouble(),
@@ -46,8 +44,8 @@ private fun generateFeelsLike(): FeelsLike {
     )
 }
 
-private fun generateTemp(): Temp {
-    return Temp(
+private fun generateTemp(): TempDto {
+    return TempDto(
         day = randomDouble(),
         eve = randomDouble(),
         max = randomDouble(),
@@ -59,11 +57,11 @@ private fun generateTemp(): Temp {
 
 private fun generateWeatherInfoList(
     size: Int = randomPositiveInt(10),
-    creationFunction: (Int) -> WeatherInfo = { generateWeatherInfo() }
-): List<WeatherInfo> = (0..size).map { creationFunction(it) }
+    creationFunction: (Int) -> WeatherInfoDto = { generateWeatherInfo() }
+): List<WeatherInfoDto> = (0..size).map { creationFunction(it) }
 
-private fun generateWeatherInfo(): WeatherInfo =
-    WeatherInfo(
+private fun generateWeatherInfo(): WeatherInfoDto =
+    WeatherInfoDto(
         description = randomString(),
         icon = randomString(),
         id = randomInt(),
@@ -79,9 +77,9 @@ fun generateCityInfoDto(): CityInfoDto =
         message = randomDouble()
     )
 
-private fun generateCity(): City =
-    City(
-        coord = Coord(randomDouble(), randomDouble()),
+private fun generateCity(): CityDto =
+    CityDto(
+        coord = CoordDto(randomDouble(), randomDouble()),
         country = randomString(),
         id = randomInt(),
         name = randomString(),

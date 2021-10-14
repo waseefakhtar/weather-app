@@ -8,7 +8,7 @@ data class WeatherDto(
     val deg: Int,
     val dt: Int,
     @SerializedName("feels_like")
-    val feelsLike: FeelsLike,
+    val feelsLike: FeelsLikeDto,
     val gust: Double,
     val humidity: Int,
     val pop: Double,
@@ -16,9 +16,9 @@ data class WeatherDto(
     val speed: Double,
     val sunrise: Int,
     val sunset: Int,
-    val temp: Temp,
+    val temp: TempDto,
     @SerializedName("weather")
-    val weatherInfo: List<WeatherInfo>
+    val weatherInfo: List<WeatherInfoDto>
 )
 
 fun WeatherDto.toWeather(): Weather {

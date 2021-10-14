@@ -1,6 +1,6 @@
 package com.waseefakhtar.weatherapp.data.remote.dto
 
-data class Coord(
+data class CoordDto(
     val lat: Double,
     val lon: Double
 )
