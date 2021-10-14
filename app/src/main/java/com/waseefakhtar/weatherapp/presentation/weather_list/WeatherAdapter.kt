@@ -2,8 +2,10 @@ package com.waseefakhtar.weatherapp.presentation.weather_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.waseefakhtar.weatherapp.R
 import com.waseefakhtar.weatherapp.domain.model.Weather
 import java.text.SimpleDateFormat
@@ -33,10 +35,12 @@ class WeatherViewHolder(
 ) : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.item_weather, parentView, false)) {
     private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
     private val weatherTextView: TextView = itemView.findViewById(R.id.weatherTextView)
+    private val weatherIcon: ImageView = itemView.findViewById(R.id.imageView)
     fun bind(weather: Weather) {
         itemView.setOnClickListener { onWeatherClick(weather) }
         dateTextView.text = weather.dt.toDate()
         weatherTextView.text = weather.day.toString() + "°C"
+        weatherIcon.load("https://openweathermap.org/img/w/${weather.icon}.png")
     }
 }
 

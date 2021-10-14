@@ -19,6 +19,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toTopOf="@id/dateTextView"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView"
+        app:layout_constraintEnd_toStartOf="@+id/weatherTextView"
+        app:layout_constraintBottom_toBottomOf="@id/dateTextView"
+        />
+
     <TextView
         android:id="@+id/weatherTextView"
         style="@style/TextAppearance.MaterialComponents.Headline4"
