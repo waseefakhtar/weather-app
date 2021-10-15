@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import com.waseefakhtar.weatherapp.R
 import com.waseefakhtar.weatherapp.databinding.ActivityMainBinding
 import com.waseefakhtar.weatherapp.domain.model.Weather
