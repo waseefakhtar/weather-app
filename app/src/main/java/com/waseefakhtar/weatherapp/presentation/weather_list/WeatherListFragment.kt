@@ -13,6 +13,7 @@ import com.waseefakhtar.weatherapp.domain.model.Weather
 import com.waseefakhtar.weatherapp.presentation.BindingFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WeatherListFragment : BindingFragment<FragmentWeatherListBinding>() {
@@ -21,12 +22,16 @@ class WeatherListFragment : BindingFragment<FragmentWeatherListBinding>() {
         get() = FragmentWeatherListBinding::inflate
 
     private val viewModel: WeatherListViewModel by viewModels()
-    private val adapter: WeatherAdapter by lazy { WeatherAdapter(layoutInflater, ::onWeatherClick) }
+    @Inject lateinit var adapter: WeatherAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerView.adapter = adapter
         subscribeToStates()
+
+        adapter.onItemClick = {
+            onWeatherClick(it)
+        }
     }
 
     private fun subscribeToStates() {
@@ -38,7 +43,7 @@ class WeatherListFragment : BindingFragment<FragmentWeatherListBinding>() {
                 }
 
                 when (state.weatherList.isNotEmpty()) {
-                    true -> adapter.add(state.weatherList)
+                    true -> adapter.differ.submitList(state.weatherList)
                 }
 
                 when (state.error.isNotEmpty()) {
