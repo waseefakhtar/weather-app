@@ -4,52 +4,54 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.waseefakhtar.weatherapp.R
+import com.waseefakhtar.weatherapp.databinding.ItemWeatherBinding
 import com.waseefakhtar.weatherapp.domain.model.Weather
+import com.waseefakhtar.weatherapp.presentation.BaseRecyclerViewAdapter
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class WeatherAdapter(
-    private val layoutInflater: LayoutInflater,
-    private val onWeatherClick: (weather: Weather) -> Unit
-) : RecyclerView.Adapter<WeatherViewHolder>() {
+class WeatherAdapter @Inject constructor() : BaseRecyclerViewAdapter<Weather, ItemWeatherBinding>() {
 
-    private var weatherList = mutableListOf<Weather>()
+    override fun setBinding(parent: ViewGroup): ItemWeatherBinding = ItemWeatherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-    override fun getItemCount(): Int = weatherList.size
-    override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) = holder.bind(weatherList[position])
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder = WeatherViewHolder(layoutInflater, parent, onWeatherClick)
-
-    fun add(weatherList: List<Weather>) {
-        this.weatherList.addAll(weatherList)
-        notifyDataSetChanged()
+    override fun onBindData(
+        holder: Companion.BaseViewHolder<ItemWeatherBinding>,
+        item: Weather,
+        position: Int
+    ) {
+        holder.binding.apply {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(item)
+            }
+            dateTextView.text = item.dt.toDate()
+            weatherTextView.text = item.day.toString() + "°C"
+            imageView.load("https://openweathermap.org/img/w/${item.icon}.png")
+        }
     }
-}
 
-class WeatherViewHolder(
-    layoutInflater: LayoutInflater,
-    parentView: ViewGroup,
-    private val onWeatherClick: (weather: Weather) -> Unit
-) : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.item_weather, parentView, false)) {
-    private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
-    private val weatherTextView: TextView = itemView.findViewById(R.id.weatherTextView)
-    private val weatherIcon: ImageView = itemView.findViewById(R.id.imageView)
-    fun bind(weather: Weather) {
-        itemView.setOnClickListener { onWeatherClick(weather) }
-        dateTextView.text = weather.dt.toDate()
-        weatherTextView.text = weather.day.toString() + "°C"
-        weatherIcon.load("https://openweathermap.org/img/w/${weather.icon}.png")
+    override fun setItemsTheSame(oldItem: Weather, newItem: Weather): Boolean {
+        return  oldItem.title == newItem.title
     }
+
+    override fun serContentsTheSame(oldItem: Weather, newItem: Weather): Boolean {
+        return  oldItem == newItem
+    }
+
+    override var differ: AsyncListDiffer<Weather> = AsyncListDiffer(this, differCallBack)
+
 }
 
 private fun Int.toDate(): String? {
-    try {
+    return try {
         val sdf = SimpleDateFormat("EEEE, MMM dd")
         val netDate = Date(this.toLong() * 1000)
-        return sdf.format(netDate)
+        sdf.format(netDate)
     } catch (e: Exception) {
-        return e.toString()
+        e.toString()
     }
 }
